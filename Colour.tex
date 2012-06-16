@@ -1,0 +1,91 @@
+\documentclass[useAMS,usedcolumn,usegraphicx,usenatbib]{mn2e}
+\usepackage{amssymb,amstext,amsfonts} %% ... with default font
+\usepackage[fleqn]{amsmath}
+\usepackage{subfigure}
+\usepackage{slashed}
+\usepackage[lowtilde]{url}
+%\usepackage{enumitem}
+\usepackage{mathrsfs}
+\usepackage{dcolumn}
+\usepackage{hyperref}
+
+\renewcommand{\mathindent}{0cm}
+
+%%%%% AUTHORS - PLACE YOUR OWN MACROS HERE %%%%%
+\newcommand{\eqnref}[1]{(\ref{eq:#1})}
+\newcommand{\figref}[1]{Fig.~\ref{fig:#1}}
+\newcommand{\Figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\tabref}[1]{Table~\ref{tab:#1}}
+\newcommand{\secref}[1]{Sec.~\ref{sec:#1}}
+\newcommand{\Secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\apref}[1]{Appendix~\ref{ap:#1}}
+
+\newcommand{\units}[1]{\ensuremath{~\mathrm{#1}}}
+
+\DeclareMathOperator{\sinc}{sinc}
+
+\newcommand{\sub}[1]{\ensuremath{_\mathrm{#1}}}
+\newcommand{\super}[1]{\ensuremath{^\mathrm{#1}}}
+\newcommand{\dd}{\ensuremath{\mathrm{d}}}
+\newcommand{\diff}[2]{\ensuremath{\frac{\dd {#1}}{\dd {#2}}}}
+\newcommand{\partialdiff}[2]{\ensuremath{\frac{\partial {#1}}{\partial {#2}}}}
+\newcommand{\intd}[4]{\ensuremath{\int_{#1}^{#2}{#3}\,\dd{#4}}}
+\newcommand{\recip}[1]{\ensuremath{\frac{1}{#1}}}
+
+\newcommand{\order}[1]{\ensuremath{\mathcal{O}({#1})}}
+
+\newcommand{\innerprod}[2]{\ensuremath{\left({#1}\middle|{#2}\right)}}
+
+\newcommand{\Ibar}{{\declareslashed{}{\text{-}}{0.04}{-0.2}{I}\slashed{I}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title[A colour scheme for the display of astronomical polarisation images]{A colour scheme for the display of astronomical polarisation images}
+\author[C.\ P.\ L.\ Berry]{C.\ P.\ L.\ Berry$^{1}$\thanks{E-mail: cplb2@cam.ac.uk}\\
+$^{1}$Institute of Astronomy, University of Cambridge, Madingley Road, Cambridge, CB3 0HA}
+
+\begin{document}
+
+\date{\today}
+
+\pagerange{\pageref{firstpage}--\pageref{lastpage}} \pubyear{2012}
+
+\maketitle
+
+\label{firstpage}
+
+\begin{abstract}
+We present a colour scheme that is designed to be monotonically increasing in perceived brightness and which can rotate in hue such that equal angular differences have equal perceived colour differences. This should be especially suitable for the screen display of quantities such as polarisation that have both a magnitude (to be represented by lightness), and orientation (to be represented by hue angle).
+\end{abstract}
+
+\begin{keywords}
+publications -- methods: data analysis -- methods: data analysis.
+\end{keywords}
+
+\section{Motivation}\label{sec:Intro}
+
+Central to the advancement of science is the sharing of results and explaining of ideas. This communication is frequently aided through use of figures; now mostly viewed electronically from a screen display. Colour is often used to encode information; however, the majority of colour maps used for such purposes do not take into account the perceived differences between colours. This means that figures are not as easy to understand as they could be, and may in fact appear confusing.
+
+The eye is not equally sensitive to all colours. It is most responsive to green light and the perceived brightness of green is greater than red, which is in turn greater than blue. This means that a yellow (a combination of red and green) appears to be much lighter than a similar blue. If using a spectrum of colours to represent, say intensity, this can lead to confusion if yellow is used for intermediate values and blue (or red) for high intensities, as these will be perceived as being darker. The eye is drawn to the mid-values, and the details of the peaks overlooked as they are not appropriately highlighted.
+
+This problem is compounded when such images are printed in black and white. Increasing intensity from the colour images does not translate to monotonically increasing lightness in the printed greyscale figures, often rendering them a waste of ink.
+
+These issues were addressed in a previous publication that suggested a scheme suitable for intensity images \cite{Green2011}. This is monotonically increasing in perceived lightness, and this translates to an unambiguous greyscale when printed.
+
+In this work we go further; we consider the perceived colour difference between hues so that it possible to define a colour scale which is perceptually uniform: the difference in colour of two points separated by a fixed interval should also appear (approximately) the same. This may be of use for representing quantities like polarisation which have both a magnitude, which can be represented by lightness, and an orientation, which can represented by hue.
+
+
+\section*{Acknowledgments}
+
+CPLB is supported by STFC.
+
+\bibliographystyle{mn2e}
+\bibliography{Colour}
+
+\appendix
+
+
+
+\bsp
+
+\label{lastpage}
+
+\end{document}
