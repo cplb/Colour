@@ -57,7 +57,7 @@ We present a colour scheme that is designed to be monotonically increasing in pe
 \end{abstract}
 
 \begin{keywords}
-publications -- methods: data analysis -- methods: data analysis.
+publications -- methods: data analysis -- methods: miscellaneous.
 \end{keywords}
 
 \section{Motivation}\label{sec:Intro}
@@ -72,6 +72,28 @@ These issues were addressed in a previous publication that suggested a scheme su
 
 In this work we go further; we consider the perceived colour difference between hues so that it possible to define a colour scale which is perceptually uniform: the difference in colour of two points separated by a fixed interval should also appear (approximately) the same. This may be of use for representing quantities like polarisation which have both a magnitude, which can be represented by lightness, and an orientation, which can represented by hue.
 
+\section{Colour perception}
+
+Light comes in a continuous spectrum; however, defining colour is not as simple as prescribing a wavelength. There is no purple light. Perception of colour dictated by the eye's response. The retina has two types of receptors: rods and cones. Rods are only sensitive to total illuminance, whilst cones are sensitive to different colours. Their sensitivities are wavelength dependent: there are three cones, with peak sensitivities corresponding to red, green and blue. Colour vision is constructed by combining the signals from the rods and the three cones.
+
+Perception of colour has been well studied. The field of colorimetry was founded by the studies of Munsell at the start of the twentieth century.
+
+The CIELAB colour space is designed to be a perceptually uniform. It is parametrised in terms of three orthogonal coordinates: a lightness $L^\ast$, and two colour dimensions $a^\ast$ and $b^\ast$. Positive $a^\ast$ values indicate magenta, negative green; positive $b^\ast$ indicate yellow, negative blue. We shall make use of a cylindrical reparametrization LCH(ab). This uses the lightness plus a chroma $C^\ast_{ab}$ which describes the colourfulness (chroma of zero corresponds to greyscale), and a hue angle $h_{ab}$. The systems are related by
+\begin{align}
+a^\ast = {} & C^\ast_{ab}\cos h_{ab} \\
+b^\ast = {} & C^\ast_{ab}\sin h_{ab}.
+\end{align}
+The perceived colour difference can be defined by a Euclidean distance
+\begin{align}
+{\Delta E}^2 = {} & {\Delta L^\ast}^2 + {\Delta a^\ast}^2 + {\Delta b^\ast}^2 \\
+ = {} &  {\Delta L^\ast}^2 + \ldots
+\end{align}
+
+There exist more sophisticated colour models than CIELAB, but these no longer have such simple colour differences. They also begin to factor in factors such as the surrounding colour, which are too complicated for our purposes.
+
+Ensuring that our colour map has monotonically increasing lightness $L^\ast$ will give us the desired increasing brightness. We can also use the hue angle $h_{ab}$ to give a simple mapping between colour and whatever angular parameter, such as polarization angle, we wish to depict, in such a way that differences appear uniform.
+
+The remain two ingrients to be specified. The CIELAB model requires the specification of a white point, and we need to specify how to convert to RGB colour space for producing coloured figures. For the latter we shall adopt the NTSC standard, as this is employed in Postscript. The NTSC RGB space itself is defined with a white point, given by standard illuminant C. We shall therefore use this too. Standard illuminant C is meant to represent natural daylight. It has been superseded by the family of standard illumniants D. The main difference that C has less power in the ultraviolet end of the spectrum.  This should be less important for indoor lighting.
 
 \section*{Acknowledgments}
 
