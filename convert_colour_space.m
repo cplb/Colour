@@ -1,7 +1,14 @@
 function [V_RGB, n_clip] = convert_colour_space(C_Lab, H_Lab, L_Lab, white, rgb_spec)
 %[V_RGB, n_clip] = convert_colour_space(C_Lab, H_Lab, L_Lab, white, rgb_spec)
 %C_Lab - Croma, H_Lab - Hue, L_Lab - Lightness. white - reference white
-%point, rgb_spec - system for RGB conversion.
+%point, rgb_spec - system for RGB conversion. H_Lab is given in radians,
+%L_Lab should be between 0 (black) and 100 (white). C_Lab can be set to 0 
+%for a greyscale. V_RGB is a vector containing red, green and blue values 
+%between 0 and 1. n_clip is a list of levels which have been clipped: the
+%RGB values have been readjusted to lie within the range [0 1] because the
+%input LCH coordinates are outside of the permitted gamut. Suggested 
+%default values are white = 3 (standard illuminat C) and rgb_spec = 1 
+%(NTSC).
     
     % Define white point
 	% ASTM E 308-2006
@@ -53,7 +60,7 @@ function [V_RGB, n_clip] = convert_colour_space(C_Lab, H_Lab, L_Lab, white, rgb_
         Z_n = 0.8233;
         x_n = 0.3433;
         y_n = 0.3602;
-    elseif white == 9 % D50
+    elseif white == 9 % ID65
         X_n = 0.9395;
         Y_n = 1.0000;
         Z_n = 1.0846;
@@ -76,10 +83,10 @@ function [V_RGB, n_clip] = convert_colour_space(C_Lab, H_Lab, L_Lab, white, rgb_
     Z_XYZ = Z_n * inf_t((L_Lab + 16) / 116 - b_Lab / 200);                                      
     
     % Convert from XYZ to rgb
-    if spec == 1 % (NTSC)        
+    if rgb_spec == 1 % NTSC        
         x_rgb = [0.6700, 0.2100, 0.1400];
         y_rgb = [0.3300, 0.7100, 0.0800];
-    elseif spec == 2 % (sRGB)
+    elseif rgb_spec == 2 % sRGB
         x_rgb = [0.6400, 0.3000, 0.1500];
         y_rgb = [0.3300, 0.6000, 0.0600];
     end
@@ -99,6 +106,7 @@ function [V_RGB, n_clip] = convert_colour_space(C_Lab, H_Lab, L_Lab, white, rgb_
 
         v_rgb = M_rgb \ [X_XYZ; Y_XYZ; Z_XYZ];
     else % Forward
+       % See Table 11.1 of 'Measuring Colour', Hunt & Pointer, 2011
        a_mat = [x_rgb', y_rgb', (1 - x_rgb - y_rgb)'];
        
        b_mat = det(a_mat)*inv(a_mat);
@@ -117,13 +125,21 @@ function [V_RGB, n_clip] = convert_colour_space(C_Lab, H_Lab, L_Lab, white, rgb_
     
     %Y_check = [0.298839, 0.586811, 0.114350] * v_rgb;
     
+    % Remap into permitted range
     v_clip = max(min(v_rgb, 1), 0);
     
+    % Find levels which have been clipped
     n_clip = unique([find((v_rgb(1,:) > 1)), find((v_rgb(1,:) < 0)), find((v_rgb(2,:) > 1)), find((v_rgb(2,:) < 0)), find((v_rgb(3,:) > 1)), find((v_rgb(3,:) < 0))]);
     
     % Convert from rgb to RGB
-    %gamma = 1.0;
-    gamma = 2.2; % NTSC
-    V_RGB = (v_clip.^(1/gamma))';
+    if rgb_spec == 1 % NTSC
+        gamma = 2.2; 
+        V_RGB = (v_clip.^(1/gamma))';
+    elseif rgb_spec == 2 % sRGB
+        c_break = 3.130668442500634e-03;
+        a_offset = 0.055;
+        gamma = 2.4; % Effective gamma for entire range is ~2.2
+        V_RGB = (((1 + a_offset) * v_clip.^(1/gamma) - a_offset) .* (v_clip > c_break) + (12.92 * v_clip) .* (v_clip <= c_break))';
+    end
     
 end
