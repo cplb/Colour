@@ -62,13 +62,13 @@ publications -- methods: data analysis -- methods: miscellaneous.
 
 \section{Motivation}\label{sec:Intro}
 
-Central to the advancement of science is the sharing of results and explaining of ideas. This communication is frequently aided through use of figures; now mostly viewed electronically from a screen display. Colour is often used to encode information; however, the majority of colour maps used for such purposes do not take into account the perceived differences between colours. This means that figures are not as easy to understand as they could be, and may in fact appear confusing.
+Central to the advancement of science is the sharing of results and explaining of ideas. This communication is frequently aided through use of figures; now mostly viewed electronically from a screen display. Colour is often used to encode information; however, the majority of colour maps used for such purposes do not take into account the perceived differences between colours. This means that figures are not as easy to understand as they could be, and may in fact appear misleading.
 
 The eye is not equally sensitive to all colours. It is most responsive to green light and the perceived brightness of green is greater than red, which is in turn greater than blue. This means that a yellow (a combination of red and green) appears to be much lighter than a similar blue. If using a spectrum of colours to represent, say intensity, this can lead to confusion if yellow is used for intermediate values and blue (or red) for high intensities, as these will be perceived as being darker. The eye is drawn to the mid-values, and the details of the peaks overlooked as they are not appropriately highlighted.
 
 This problem is compounded when such images are printed in black and white. Increasing intensity from the colour images does not translate to monotonically increasing lightness in the printed greyscale figures, often rendering them a waste of ink.
 
-These issues were addressed in a previous publication that suggested a scheme suitable for intensity images \cite{Green2011}. This is monotonically increasing in perceived lightness, and this translates to an unambiguous greyscale when printed.
+These issues were addressed in \citet{Green2011}, who suggested a scheme suitable for intensity images. This is monotonically increasing in perceived lightness, and this translates to an unambiguous greyscale when printed.
 
 In this work we go further; we consider the perceived colour difference between hues so that it possible to define a colour scale which is perceptually uniform: the difference in colour of two points separated by a fixed interval should also appear (approximately) the same. This may be of use for representing quantities like polarisation which have both a magnitude, which can be represented by lightness, and an orientation, which can represented by hue.
 
@@ -76,9 +76,9 @@ In this work we go further; we consider the perceived colour difference between 
 
 Light comes in a continuous spectrum; however, defining colour is not as simple as prescribing a wavelength. There is no purple light. Perception of colour dictated by the eye's response. The retina has two types of receptors: rods and cones. Rods are only sensitive to total illuminance, whilst cones are sensitive to different colours. Their sensitivities are wavelength dependent: there are three cones, with peak sensitivities corresponding to red, green and blue. Colour vision is constructed by combining the signals from the rods and the three cones.
 
-Perception of colour has been well studied. The field of colorimetry was founded by the studies of Munsell at the start of the twentieth century.
+Perception of colour has been well studied. The field of colorimetry was founded by the studies of Munsell at the start of the twentieth century. There have been many subsequent studies leading to more intricate colour perception models. The standard authority in colorimetry is the International Commission on Illumination (\textit{Commission Internationale de l'Eclairage}, CIE). They have released several parametrisations of colour space, designed to accommodate the peculiarities of human vision.
 
-The CIELAB colour space is designed to be a perceptually uniform. It is parametrised in terms of three orthogonal coordinates: a lightness $L^\ast$, and two colour dimensions $a^\ast$ and $b^\ast$. Positive $a^\ast$ values indicate magenta, negative green; positive $b^\ast$ indicate yellow, negative blue. We shall make use of a cylindrical reparametrization LCH(ab). This uses the lightness plus a chroma $C^\ast_{ab}$ which describes the colourfulness (chroma of zero corresponds to greyscale), and a hue angle $h_{ab}$. The systems are related by
+The CIE $L^\ast a^\ast b^\ast$ colour space is designed to be a perceptually uniform. It is parametrised in terms of three orthogonal coordinates: a lightness $L^\ast$, and two colour dimensions $a^\ast$ and $b^\ast$. Positive $a^\ast$ values indicate magenta, negative green; positive $b^\ast$ indicate yellow, negative blue. We shall make use of a cylindrical reparametrization $L^\ast C^\ast h^\ast$. This uses the lightness plus a chroma $C^\ast_{ab}$ which describes the colourfulness (chroma of zero corresponds to greyscale), and a hue angle $h_{ab}$. The systems are related by
 \begin{align}
 a^\ast = {} & C^\ast_{ab}\cos h_{ab} \\
 b^\ast = {} & C^\ast_{ab}\sin h_{ab}.
@@ -89,11 +89,21 @@ The perceived colour difference can be defined by a Euclidean distance
  = {} &  {\Delta L^\ast}^2 + \ldots
 \end{align}
 
-There exist more sophisticated colour models than CIELAB, but these no longer have such simple colour differences. They also begin to factor in factors such as the surrounding colour, which are too complicated for our purposes.
+There exist more sophisticated colour models than CIE $L^\ast a^\ast b^\ast$, but these no longer have such simple colour differences. They also begin to factor in factors such as the surrounding colour, which are too complicated for our purposes.
 
 Ensuring that our colour map has monotonically increasing lightness $L^\ast$ will give us the desired increasing brightness. We can also use the hue angle $h_{ab}$ to give a simple mapping between colour and whatever angular parameter, such as polarization angle, we wish to depict, in such a way that differences appear uniform.
 
-The remain two ingrients to be specified. The CIELAB model requires the specification of a white point, and we need to specify how to convert to RGB colour space for producing coloured figures. For the latter we shall adopt the NTSC standard, as this is employed in Postscript. The NTSC RGB space itself is defined with a white point, given by standard illuminant C. We shall therefore use this too. Standard illuminant C is meant to represent natural daylight. It has been superseded by the family of standard illumniants D. The main difference that C has less power in the ultraviolet end of the spectrum.  This should be less important for indoor lighting.
+\section{Colour Model}
+
+The remain two ingrients to be specified. The CIE $L^\ast a^\ast b^\ast$ model requires the specification of a white point, and we need to specify how to convert to $RGB$ colour space for producing coloured figures. The white point encodes information regarding the illumination of the image. The conversion to $RGB$ is device dependent: this is not strictly necessary, as there exist protocols to encode $L^\ast a^\ast b^\ast$ profiles directly into images. However, we shall assume that it is preferable to convert to $RGB$ and not worry about different file formats. We shall allow the user to make choises regarding both.
+
+\subsection{White point}
+
+The percieved colour of an object depends upon how it is illuminated. It is impossible to perfectly predict under what conditions an image will be viewed; however, the CIE have 
+
+\subsection{Conversion to $RGB$}
+
+For the latter we shall adopt the NTSC standard, as this is employed in Postscript. The NTSC RGB space itself is defined with a white point, given by standard illuminant C. We shall therefore use this too. Standard illuminant C is meant to represent natural daylight. It has been superseded by the family of standard illumniants D. The main difference that C has less power in the ultraviolet end of the spectrum.  This should be less important for indoor lighting.
 
 \section*{Acknowledgments}
 
