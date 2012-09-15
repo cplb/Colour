@@ -80,14 +80,15 @@ Perception of colour has been well studied. The field of colorimetry was founded
 
 The CIE $L^\ast a^\ast b^\ast$ colour space is designed to be a perceptually uniform. It is parametrised in terms of three orthogonal coordinates: a lightness $L^\ast$, and two colour dimensions $a^\ast$ and $b^\ast$. Positive $a^\ast$ values indicate magenta, negative green; positive $b^\ast$ indicate yellow, negative blue. We shall make use of a cylindrical reparametrization $L^\ast C^\ast h^\ast$. This uses the lightness plus a chroma $C^\ast_{ab}$ which describes the colourfulness (chroma of zero corresponds to greyscale), and a hue angle $h_{ab}$. The systems are related by
 \begin{align}
-a^\ast = {} & C^\ast_{ab}\cos h_{ab} \\
-b^\ast = {} & C^\ast_{ab}\sin h_{ab}.
+a^\ast = {} & C^\ast_{ab}\cos h^\ast_{ab} \\
+b^\ast = {} & C^\ast_{ab}\sin h^\ast_{ab}.
 \end{align}
 The perceived colour difference can be defined by a Euclidean distance
 \begin{align}
-{\Delta E}^2 = {} & {\Delta L^\ast}^2 + {\Delta a^\ast}^2 + {\Delta b^\ast}^2 \\
- = {} &  {\Delta L^\ast}^2 + \ldots
+{\Delta E}^2 = {} & \Delta L^{\ast\,2} + \Delta a^{\ast\,2} + \Delta b^{\ast\,2} \\
+ = {} &  \Delta L^{\ast\,2} + C^{\ast\,2}_{ab,\,1} + C^{\ast\,2}_{ab,\,2} - 2C^\ast_{ab,\,1}C^\ast_{ab,\,2}\cos \Delta h^\ast_{ab},
 \end{align}
+where $\Delta L^\ast = L^\ast_1 - L^\ast_2$, $\Delta a^\ast = a^\ast_1 - a^\ast_2$, $\Delta b^\ast = b^\ast_1 - b^\ast_2$ and $\Delta h^\ast_{ab} = h^\ast_{ab,\,1} - h^\ast_{ab,\,2}$.
 
 There exist more sophisticated colour models than CIE $L^\ast a^\ast b^\ast$, but these no longer have such simple colour differences. They also begin to factor in factors such as the surrounding colour, which are too complicated for our purposes.
 
@@ -95,11 +96,11 @@ Ensuring that our colour map has monotonically increasing lightness $L^\ast$ wil
 
 \section{Colour Model}
 
-The remain two ingrients to be specified. The CIE $L^\ast a^\ast b^\ast$ model requires the specification of a white point, and we need to specify how to convert to $RGB$ colour space for producing coloured figures. The white point encodes information regarding the illumination of the image. The conversion to $RGB$ is device dependent: this is not strictly necessary, as there exist protocols to encode $L^\ast a^\ast b^\ast$ profiles directly into images. However, we shall assume that it is preferable to convert to $RGB$ and not worry about different file formats. We shall allow the user to make choises regarding both.
+The remain two ingredients to be specified. The CIE $L^\ast a^\ast b^\ast$ model requires the specification of a white point, and we need to specify how to convert to $RGB$ colour space for producing coloured figures. The white point encodes information regarding the illumination of the image. The conversion to $RGB$ is device dependent: this is not strictly necessary, as there exist protocols to encode $L^\ast a^\ast b^\ast$ profiles directly into images. However, we shall assume that it is preferable to convert to $RGB$ and not worry about different file formats. We shall allow the user to make choices regarding both.
 
 \subsection{White point}
 
-The percieved colour of an object depends upon how it is illuminated. It is impossible to perfectly predict under what conditions an image will be viewed; however, the CIE have 
+The perceived colour of an object depends upon how it is illuminated. It is impossible to perfectly predict under what conditions an image will be viewed; however, the CIE have several standard illuminants that are commonly used for reference.
 
 \subsection{Conversion to $RGB$}
 
